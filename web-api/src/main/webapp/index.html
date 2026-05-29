@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Distributed Temperature Converter
+    </title>
+
+    <style>
+
+        body {
+
+            margin: 0;
+            padding: 0;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e293b
+                );
+
+            color: white;
+
+            height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+
+            width: 420px;
+
+            background: rgba(255,255,255,0.08);
+
+            padding: 40px;
+
+            border-radius: 20px;
+
+            backdrop-filter: blur(10px);
+
+            box-shadow:
+                0 8px 32px rgba(0,0,0,0.3);
+
+            text-align: center;
+        }
+
+        h1 {
+
+            margin-bottom: 10px;
+
+            font-size: 32px;
+        }
+
+        p {
+
+            color: #cbd5e1;
+
+            margin-bottom: 30px;
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+
+            box-sizing: border-box;
+        }
+
+        button {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 20px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #3b82f6;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        button:hover {
+
+            background: #2563eb;
+
+            transform: scale(1.02);
+        }
+
+        #result {
+
+            margin-top: 30px;
+
+            font-size: 26px;
+
+            font-weight: bold;
+
+            color: #38bdf8;
+        }
+
+        .footer {
+
+            margin-top: 30px;
+
+            font-size: 13px;
+
+            color: #94a3b8;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>
+            Temperature Converter
+        </h1>
+
+        <p>
+            Jakarta EE + Remote EJB + REST API
+        </p>
+
+        <input
+                type="number"
+                id="celsius"
+                placeholder="Enter Celsius">
+
+        <button onclick="convertTemperature()">
+            Convert Temperature
+        </button>
+
+        <div id="result">
+
+        </div>
+
+        <div class="footer">
+            Distributed Systems Demo
+        </div>
+
+    </div>
+
+    <script>
+
+        async function convertTemperature() {
+
+            const celsius =
+                document.getElementById("celsius").value;
+
+            const resultDiv =
+                document.getElementById("result");
+
+            resultDiv.innerHTML = "Loading...";
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/web-api/api/temperature/convert?c=${celsius}`
+                    );
+
+                const data =
+                    await response.json();
+
+                resultDiv.innerHTML =
+                    `
+                    ${data.celsius} °C
+                    =
+                    ${data.fahrenheit} °F
+                    `;
+
+            } catch (error) {
+
+                resultDiv.innerHTML =
+                    "Connection error";
+            }
+        }
+
+    </script>
+
+</body>
+</html>
